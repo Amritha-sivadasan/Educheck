@@ -56,7 +56,7 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
-      "rounded-full border bottom-1",
+      "rounded-full w-7 h-7 border bottom-1",
 
       className
     )}

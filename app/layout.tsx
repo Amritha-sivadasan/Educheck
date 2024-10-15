@@ -19,8 +19,8 @@ export default function RootLayout({
       <body className="bg-gray-200 min-h-screen flex flex-col md:flex-row lg:flex-row">
         <Sidebar />
 
-        <div className=" flex-col flex-grow flex">
-        <Navbar className="hidden md:block" />
+        <div className=" flex-col flex-grow flex w-full">
+          <Navbar className="hidden md:block " />
 
           <main className="flex-grow p-4">{children}</main>
         </div>

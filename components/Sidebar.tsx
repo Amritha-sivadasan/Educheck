@@ -6,10 +6,10 @@ import {
   Settings,
   AlignJustify,
   LayoutDashboard,
+  Search,
 } from "lucide-react";
 import Image from "next/image";
 
-// Define the props for SidebarItem component
 interface SidebarItemProps {
   href: string;
   icon: React.ReactNode;
@@ -41,7 +41,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 };
 
 const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false); // State to manage sidebar toggle
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div
@@ -72,23 +72,19 @@ const Sidebar: React.FC = () => {
         <p className="text-sm font-medium text-gray-500 mb-2">GENERAL</p>
         <ul className="space-y-2">
           <SidebarItem
-            href="#dashboard"
+            href="/dashboard"
             icon={<LayoutDashboard strokeWidth={1.75} />}
             text="Dashboard"
             active
           />
+          <SidebarItem href="#feed" icon={<Search size={20} />} text="Feed" />
           <SidebarItem
-            href="#feed"
-            icon={<BarChart2 size={20} />}
-            text="Feed"
-          />
-          <SidebarItem
-            href="#analytics"
+            href="/analytics"
             icon={<BarChart2 size={20} />}
             text="Analytics"
           />
           <SidebarItem
-            href="#settings"
+            href="/settings"
             icon={<Settings size={20} />}
             text="Settings"
           />
