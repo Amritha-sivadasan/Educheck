@@ -1,3 +1,21 @@
+# Educheck
+
+## Description
+Educheck is an exam-based application designed like a quiz page. It starts with a dashboard that features a timer and presents questions with four options. The test duration is one hour, and students are required to complete at least 50% of the questions.
+
+
+## Technologies Used
+
+Educheck is built using a modern tech stack to provide an efficient and responsive user experience. The key technologies and libraries used in this project include:
+
+- **Next.js 14**: A React framework for building server-side rendered applications.
+- **Shadcn UI Library**: A component library designed for building user interfaces with ease.
+- **Lucid React**: An icon library for scalable and customizable icons.
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
