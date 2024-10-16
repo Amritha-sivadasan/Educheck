@@ -39,7 +39,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 export function Result() {
   return (
-    <div className="md:w-7/12 lg:w-7/12 mt-14 mx-auto w-full">
+    <div className="md:w-8/12 lg:w-8/12 mt-14 mx-auto w-full">
       <div className="text-center mb-10 hidden md:block lg:block">
         <p className="font-bold text-2xl text-gray-950">
           Your results based on your answers:
@@ -48,7 +48,7 @@ export function Result() {
       <div className="bg-white rounded-md">
         <Card className="flex flex-col md:flex-row lg:flex-row border-b">
           <CardHeader className="ms-0 md:ms-3  lg: ms items-start w-full md:w-7/12">
-            <div className="text-start font-semibold">
+            <div className="text-start ">
               <p>You are most suitable for</p>
               <h1 className="text-2xl font-bold w-11/12">
                 Association of Chartered Certified Accountant{" "}
@@ -86,10 +86,9 @@ export function Result() {
           <Button className="bg-secondary hover:bg-secondary  text-gray-700 gap-2">
             Consult Assistant <PhoneCall size={15} />
           </Button>
-          <Button className="bg-secondary hover:bg-secondary text-gray-700">
-            Copy URL{" "}
-            <span>
-              <Copy size={15} />
+          <Button className="bg-secondary hover:bg-secondary text-gray-700 hidden sm:block  md:block lg:block ">
+            <span className="flex">
+              Copy URL <Copy size={15} />
             </span>
           </Button>
         </div>

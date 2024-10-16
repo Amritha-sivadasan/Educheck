@@ -11,7 +11,7 @@ import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { getQuestions } from "@/app/api/data/data";
-import { ChevronLeft, ChevronRight, Flag } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Flag, X } from "lucide-react";
 import Timer from "./Timer";
 import Link from "next/link";
 
@@ -31,6 +31,7 @@ const Dashboard = () => {
   >({});
   const [loading, setLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
 
   useEffect(() => {
     fetchQuestion(currentPage);
@@ -54,10 +55,13 @@ const Dashboard = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    setIsOverlayVisible(false);
   };
+
   const handleAnswerChange = (questionId: string, answer: string) => {
     setSelectedAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
+
   const handleNext = () => {
     if (currentPage < TOTAL_QUESTIONS) {
       setCurrentPage(currentPage + 1);
@@ -70,41 +74,69 @@ const Dashboard = () => {
     }
   };
 
+  const toggleOverlay = () => {
+    setIsOverlayVisible(!isOverlayVisible);
+  };
+
+  const renderPaginationItems = () => {
+    return Array.from({ length: TOTAL_QUESTIONS }, (_, i) => {
+      const questionId = `q${i + 1}`;
+      const isAnswered = !!selectedAnswers[questionId];
+
+      return (
+        <PaginationLink
+          key={i}
+          href="#"
+          onClick={() => handlePageChange(i + 1)}
+          className={`
+            ${currentPage === i + 1 && isAnswered ? "bg-green-500" : ""}
+            ${
+              currentPage === i + 1 && !isAnswered
+                ? "border border-orange-400 text-gray-950"
+                : ""
+            }
+            ${
+              isAnswered
+                ? "bg-green-500 text-white"
+                : "text-gray-500 bg-secondary"
+            }
+          `}
+        >
+          {i + 1}
+        </PaginationLink>
+      );
+    });
+  };
+
   return (
-    <div className="flex flex-col  md:flex-row justify-center gap-4 h-[600px] ">
-      <div className="bg-white w-full md:w-3/12 overflow-hidden rounded-lg shadow p-2">
-        <div className=" mb-4 ">
-          {" "}
-          <h1 className="text-lg font-semibold p-4 border-b">Overview</h1>
+    <div className="flex flex-col md:flex-row justify-center gap-4 h-[600px] relative">
+      <div
+        className={`bg-white   w-full md:w-3/12 overflow-hidden rounded-lg shadow p-2 ${
+          isOverlayVisible
+            ? "absolute top-1 left-0 max-h-[350px] z-10 overflow-y-auto"
+            : "max-h-[130px] md:max-h-[600px]"
+        }`}
+      >
+        <div className="mb-4 flex p-4 border-b gap-4 justify-between">
+          <h1 className="text-lg font-semibold">Overview</h1>
+          <p className="md:hidden lg:hidden">
+            <Timer />
+          </p>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`md:hidden lg:hidden sm:hidden`}
+            onClick={toggleOverlay}
+          >
+            {isOverlayVisible ? <X size={24} /> : <ChevronDown size={24} />}
+          </Button>
         </div>
 
         <Pagination>
           <PaginationContent>
             <PaginationItem>
               <div className="flex flex-wrap items-center gap-2">
-                {Array.from({ length: TOTAL_QUESTIONS }, (_, i) => {
-                  const questionId = `q${i + 1}`;
-                  const isAnswered = !!selectedAnswers[questionId];
-
-                  return (
-                    <PaginationLink
-                      key={i}
-                      href="#"
-                      onClick={() => handlePageChange(i + 1)}
-                      className={
-                        currentPage === i + 1 && isAnswered
-                          ? "bg-green-500"
-                          : currentPage === i + 1
-                          ? "border border-orange-400 text-gray-950"
-                          : isAnswered
-                          ? "bg-green-500 text-white"
-                          : "text-gray-500 bg-secondary"
-                      }
-                    >
-                      {i + 1}
-                    </PaginationLink>
-                  );
-                })}
+                {renderPaginationItems()}
               </div>
             </PaginationItem>
           </PaginationContent>
@@ -113,25 +145,21 @@ const Dashboard = () => {
 
       <div className="bg-white w-full md:w-7/12 flex flex-col rounded-lg shadow">
         <div className="flex-grow flex flex-col">
-          <div className="mt-6 flex w-full justify-between">
+          <div className="mt-6 w-full md:flex justify-between hidden lg:flex">
             <p className="ms-9 text-sm mt-3">
               MCQ - <span className="text-red-500">{currentQuestion?.id}</span>
             </p>
-            <div className="me-10 ">
-              {" "}
-              <Timer />{" "}
+            <div className="me-10">
+              <Timer />
             </div>
           </div>
-          {loading ? (
-            <div className="flex items-center mx-auto justify-center  h-full max-w-[600px]">
+          <div className="flex  justify-center h-[350px]">
+            {loading ? (
               <p>Loading question...</p>
-            </div>
-          ) : currentQuestion ? (
-            <>
+            ) : currentQuestion ? (
               <Card className="w-full mx-auto max-w-[600px]">
                 <CardContent className="p-6">
-                  <div className=" border-b mb-4">
-                    {" "}
+                  <div className="border-b mb-4">
                     <p className="mb-4 font-semibold text-lg">
                       {currentQuestion.question}
                     </p>
@@ -153,7 +181,6 @@ const Dashboard = () => {
                           id={`option-${option.id}`}
                           label={String.fromCharCode(65 + index)}
                         />
-
                         <Label htmlFor={`option-${option.id}`}>
                           {option.option}
                         </Label>
@@ -162,29 +189,25 @@ const Dashboard = () => {
                   </RadioGroup>
                 </CardContent>
               </Card>
-            </>
-          ) : (
-            <div className="flex items-center justify-center h-full">
+            ) : (
               <p>No question available.</p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
-        <div className="flex justify-between mt-4 p-4 border ">
-          <div className="">
-            <Link href={"/Result"}>
-              <Button disabled={totalCount < TOTAL_QUESTIONS / 2}>
-                End and Submit
-              </Button>
-            </Link>
+        <div className="flex justify-between mt-4 p-4 border">
+          <div>
+            <Button disabled={totalCount < TOTAL_QUESTIONS / 2}>
+              <Link href="/Result">End and Submit</Link>
+            </Button>
           </div>
 
-          <div className="flex justify-between gap-2 ">
+          <div className="flex justify-between gap-2">
             <Button
               onClick={handlePrevious}
-              variant={"secondary"}
+              variant="secondary"
               disabled={currentPage === 1}
-              className={`  flex gap-2`}
+              className="flex gap-2"
             >
               <ChevronLeft size={15} />
               <span className="hidden md:block sm:block lg:block">
@@ -192,15 +215,12 @@ const Dashboard = () => {
               </span>
             </Button>
 
-            <Button
-              variant={"secondary"}
-              className="flex justify-between gap-2"
-            >
+            <Button variant="secondary" className="flex justify-between gap-2">
               <span>Flag</span>
               <Flag size={15} />
             </Button>
             <Button
-              variant={"secondary"}
+              variant="secondary"
               onClick={handleNext}
               disabled={currentPage === TOTAL_QUESTIONS}
               className="flex gap-2"
