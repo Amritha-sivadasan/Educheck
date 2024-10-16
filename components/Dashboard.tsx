@@ -161,7 +161,7 @@ const Dashboard = () => {
             {loading ? (
               <p>Loading question...</p>
             ) : currentQuestion ? (
-              <Card className="w-full mx-auto max-w-[600px]">
+              <Card className="w-full  max-w-[600px]">
                 <CardContent className="p-6">
                   <div className="border-b mb-4">
                     <p className="mb-4 font-semibold text-lg">
