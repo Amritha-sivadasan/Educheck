@@ -117,11 +117,15 @@ const Dashboard = () => {
             : "max-h-[130px] md:max-h-[600px]"
         }`}
       >
-        <div className="mb-4 flex p-4 border-b gap-4 justify-between">
-          <h1 className="text-lg font-semibold">Overview</h1>
-          <p className="md:hidden lg:hidden">
-            <Timer />
-          </p>
+        <div className="mb-4 flex p-4 border-b gap-2 justify-between">
+          <div className="flex gap-4">
+            {" "}
+            <h1 className="text-lg font-semibold">Overview</h1>
+            <p className="md:hidden lg:hidden">
+              <Timer />
+            </p>
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
@@ -174,7 +178,7 @@ const Dashboard = () => {
                     {currentQuestion.options.map((option, index) => (
                       <div
                         key={option.id}
-                        className="flex items-center text-gray-500 space-x-3 mb-5"
+                        className="flex items-center text-gray-800 space-x-3 mb-5"
                       >
                         <RadioGroupItem
                           value={option.id}

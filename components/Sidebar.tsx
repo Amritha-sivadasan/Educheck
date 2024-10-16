@@ -13,31 +13,26 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 interface SidebarItemProps {
-  href: string;
+  href: string[];
   icon: React.ReactNode;
   text: string;
   active?: boolean;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({
-  href,
-  icon,
-  text,
-
-}) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ href, icon, text }) => {
+  const pathname = usePathname();
+  const isActive = href.includes(pathname);
   return (
     <li>
       <a
-        href={href}
+        href={href[0]}
         className={`flex items-center p-2 rounded-lg ${
-          usePathname() == href
+          isActive
             ? "bg-orange-500 text-white"
             : "text-gray-700 hover:bg-gray-100"
         }`}
       >
-        <p className={usePathname() == href ? "text-white" : "text-orange-500"}>
-          {icon}
-        </p>
+        <p className={isActive ? "text-white" : "text-orange-500"}>{icon}</p>
         <span className="ml-3 hidden md:block lg:block sm:block">{text}</span>
       </a>
     </li>
@@ -46,7 +41,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-
 
   return (
     <div
@@ -88,30 +82,28 @@ const Sidebar: React.FC = () => {
         </p>
         <ul className="space-y-2">
           <SidebarItem
-            href="/dashboard"
+            href={["/", "/dashboard"]}
             icon={<LayoutDashboard strokeWidth={1.75} />}
             text="Dashboard"
           />
           <SidebarItem
-            href="/find"
-            icon={<Search size={20}  />}
+            href={["/find"]}
+            icon={<Search size={20} />}
             text="Find"
           />
           <SidebarItem
-            href="/inbox"
-            icon={
-              <Mail size={20}  strokeWidth={2} />
-            }
+            href={["/inbox"]}
+            icon={<Mail size={20} strokeWidth={2} />}
             text="Inbox"
           />
           <SidebarItem
-            href="/analytics"
-            icon={<BarChart2 size={20}  />}
+            href={["/analytics"]}
+            icon={<BarChart2 size={20} />}
             text="Analytics"
           />
           <SidebarItem
-            href="/settings"
-            icon={<Settings size={20}  />}
+            href={["/settings"]}
+            icon={<Settings size={20} />}
             text="Settings"
           />
         </ul>
