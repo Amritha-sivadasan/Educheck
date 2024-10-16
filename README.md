@@ -56,4 +56,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ducheck is deployed on Vercel. You can access the live application at https://educheck-liart.vercel.app
 
+![image](https://github.com/user-attachments/assets/3654a3d4-3c76-4f3d-b10a-4bb667fb15bd)
+
+
 
