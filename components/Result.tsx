@@ -1,48 +1,99 @@
-import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+"use client";
 
-const data = [
-  { name: 'Other', value: 25.5 },
-  { name: 'ACA 25%', value: 25 },
-  { name: 'CIMA 14%', value: 14 },
-  { name: 'ACCA 35%', value: 35.5 },
+import { Pie, PieChart } from "recharts";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { Button } from "./ui/button";
+import { Copy, PhoneCall } from "lucide-react";
+export const description = "A pie chart with a label";
+const chartData = [
+  { course: "CMA IND", percentage: 25, fill: "#FF4500" },
+  { course: "CA", percentage: 22.5, fill: "#FF7F50" },
+  { course: "ACCA", percentage: 16, fill: "#FFE4B5" },
+  { course: "CMA IND", percentage: 21.5, fill: "#FFA07A" },
+  { course: "CMA USA", percentage: 16.7, fill: "#FFDAB9" },
 ];
 
-const COLORS = ['#FFA500', '#FF6347', '#20B2AA', '#4682B4'];
-
-export default function Result() {
+const chartConfig = {
+  CA: {
+    label: "CA",
+    color: "hsl(var(--chart-1))",
+  },
+  "CMA IND": {
+    label: "CMA IND",
+    color: "hsl(var(--chart-2))",
+  },
+  ACCA: {
+    label: "ACCA",
+    color: "hsl(var(--chart-5))",
+  },
+  "CMA USA": {
+    label: "CMA USA",
+    color: "hsl(var(--chart-3))",
+  },
+} satisfies ChartConfig;
+export function Result() {
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold text-center">
+    <div className="md:w-7/12 lg:w-7/12 mt-14 mx-auto w-full">
+      <div className="text-center mb-10 hidden md:block lg:block">
+        <p className="font-bold text-2xl text-gray-950">
           Your results based on your answers:
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-4">
-          <p className="font-semibold">You are most suitable for:</p>
-          <p className="text-lg">Association of Chartered Certified Accountant (ACCA)</p>
-        </div>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+        </p>
+      </div>
+      <div className="bg-white rounded-md">
+        <Card className="flex flex-col md:flex-row lg:flex-row border-b">
+          <CardHeader className="ms-0 md:ms-3  lg: ms items-start w-full md:w-7/12">
+            <div className="text-start font-semibold">
+              <p>You are most suitable for</p>
+              <h1 className="text-2xl font-bold w-11/12">
+                Association of Chartered Certified Accountant{" "}
+                <span className="text-orange-500">(ACCA)</span>
+              </h1>
+              <p className="text-sm">
+                Association of Chartered Certified Accountants are professionals
+                who are responsible for the financial management of companies,
+                financial reporting, auditing, taxation, and other financial
+                aspects of the business. They have a global recognition and are
+                highly sought after in the finance industry for their expertise.
+                Join this elite group and make a global impact.
+              </p>
+            </div>
+          </CardHeader>
+          <CardContent className="flex-1 pb-0 mt-6 md:mt-0 p-0 justify-start items-start ">
+            <ChartContainer
+              config={chartConfig}
+              className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
             >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+              <PieChart>
+                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                <Pie
+                  data={chartData}
+                  dataKey="percentage"
+                  label
+                  nameKey="course"
+                />
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+        <div className=" h-[80px] flex justify-start gap-4 mt-10 ms-9">
+          <Button>View course details</Button>
+          <Button className="bg-secondary hover:bg-secondary  text-gray-700 gap-2">
+            Consult Assistant <PhoneCall size={15} />
+          </Button>
+          <Button className="bg-secondary hover:bg-secondary text-gray-700">
+            Copy URL{" "}
+            <span>
+              <Copy size={15} />
+            </span>
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
