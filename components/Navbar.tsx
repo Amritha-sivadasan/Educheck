@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
       className={`flex flex-col w-full h-26 justify-between  bg-white ${className}`}
     >
       <div className="w-full flex justify-between items-center bg-white p-4">
-        <h1 className="text-2xl font-bold">Heading</h1>
+        <h1 className="text-2xl font-bold ms-2">Heading</h1>
 
         <div className="flex items-center gap-8">
           <ul className="flex items-center gap-8">
@@ -37,12 +37,12 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
               </div>
             </li>
             <li>
-            <ModeToggle/>
+              <ModeToggle />
             </li>
           </ul>
         </div>
       </div>
-      <div className="ms-10 cursor-pointer ">
+      <div className="ms-5 cursor-pointer ">
         <ul className="flex gap-8  ">
           {dataLabel.map((item) => (
             <li
