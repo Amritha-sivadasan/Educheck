@@ -26,6 +26,7 @@ Educheck is built using a modern tech stack to provide an efficient and responsi
    git clone https://github.com/Amritha-sivadasan/Educheck.git
 
 2 Navigate to the project directory:
+
  -cd educheck
  -npm install
  -npm run dev
