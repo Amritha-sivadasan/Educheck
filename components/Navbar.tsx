@@ -3,6 +3,7 @@
 import { Bell } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { ModeToggle } from "./ThemeChange";
 
 interface NavbarProps {
   className?: string;
@@ -34,6 +35,9 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
               <div className="rounded-full bg-secondary flex justify-center items-center w-8 h-8">
                 <Image src="/profile.png" alt="icon" width={30} height={30} />
               </div>
+            </li>
+            <li>
+            <ModeToggle/>
             </li>
           </ul>
         </div>

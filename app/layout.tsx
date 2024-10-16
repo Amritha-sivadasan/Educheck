@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import TitleHanlder from "@/components/TitleHanlder";
+import { ThemeProvider } from "@/components/ThemeProvide";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-gray-200 min-h-screen flex flex-col md:flex-row lg:flex-row">
+
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+
+        
         <TitleHanlder />
         <Sidebar />
 
@@ -34,6 +44,7 @@ export default function RootLayout({
 
           <main className="flex-grow p-4">{children}</main>
         </div>
+        </ThemeProvider>
       </body>
     </html>
   );
